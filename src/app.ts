@@ -18,7 +18,14 @@ if (config.NODE_ENV === "development") {
 
 app.use(express.json({ limit: "10kb" }));
 
-app.use("/", router);
+app.use("/" + config.API_PREFIX, router);
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "P2P Voice Communication API is running.",
+  });
+});
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   next(new NotFoundError(`Can't find ${req.originalUrl} on this server!`));
